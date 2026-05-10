@@ -1,43 +1,50 @@
 let firstNumber = 0;
 let calc = null;
 let secondNumber = 0;
-let calcs = ["add", "div", "min", "tim"];
+let calcs = ["+", "-", "*", "/"];
 let displayedNumber = "";
 
 function updateNumber() {
-    if (calc === null) {
+    if (calc === null && firstNumber === -0) {
+        displayedNumber = "-"
+    }
+    else if (calc === null) {
         displayedNumber = firstNumber
     }
-    else if (calc === "add" && secondNumber === 0) {
+    else if (calc === "+" && secondNumber === 0) {
         displayedNumber = firstNumber + " + "
     }
-    else if (calc === "min" && secondNumber === 0) {
+    else if (calc === "-" && secondNumber === 0) {
         displayedNumber = firstNumber + " - "
     }
-    else if (calc === "tim" && secondNumber === 0) {
+    else if (calc === "*" && secondNumber === 0) {
         displayedNumber = firstNumber + " * "
     }
-    else if (calc === "div" && secondNumber === 0) {
+    else if (calc === "/" && secondNumber === 0) {
         displayedNumber = firstNumber + " / "
     }
-    else if (calc === "add") {
+    else if (calc === "+") {
         displayedNumber = firstNumber + " + " + secondNumber
     }
-    else if (calc === "min") {
+    else if (calc === "-") {
         displayedNumber = firstNumber + " - " + secondNumber
     }
-    else if (calc === "tim") {
+    else if (calc === "*") {
         displayedNumber = firstNumber + " * " + secondNumber
     }
-    else if (calc === "div") {
+    else if (calc === "/") {
         displayedNumber = firstNumber + " / " + secondNumber
     }
     document.getElementById("display").textContent = displayedNumber;
 }
 
 function insertNumber(number) {
-    if (calc === null && firstNumber === 0) {
-        firstNumber = number;
+    if (displayedNumber === "-") {
+        firstNumber = firstNumber * 10 - number;
+        updateNumber();
+    }
+    else if (calc === null && firstNumber < 0) {
+        firstNumber = firstNumber * 10 - number;
         updateNumber();
     }
     else if (calc === null) {
@@ -50,58 +57,59 @@ function insertNumber(number) {
     }
 }
 
-
-function displayC() {
-    firstNumber = 0;
-    calc = null;
-    secondNumber = 0;
-    document.getElementById("display").textContent = firstNumber;
-}
-
-function displayAdd() {
-    calc = "add";
-    updateNumber();
-}
-
-function displayMin() {
-    calc = "min";
-    updateNumber();
-}
-
-function displayTim() {
-    calc = "tim";
-    updateNumber();
-}
-
-function displayDiv() {
-    calc = "div";
-    updateNumber();
-}
-
-function displayEq() {
-    if (calc === "add") {
-        document.getElementById("display").textContent = firstNumber + secondNumber;
-        firstNumber = firstNumber + secondNumber;
-        secondNumber = 0;
-        calc = null;
+function insertFunction(symbol) {
+    if (symbol === "plus") {
+        calc = "+";
+        updateNumber();
     }
-    else if (calc === "min") {
-        document.getElementById("display").textContent = firstNumber - secondNumber;
-        firstNumber = firstNumber - secondNumber;
-        secondNumber = 0;
-        calc = null;
-
+    else if (symbol === "minus") {
+            if (firstNumber === 0) {
+                firstNumber = -0;
+                updateNumber();
+            }
+            else {
+                calc = "-";
+                updateNumber();
+            }
     }
-    else if (calc === "tim") {
-        document.getElementById("display").textContent = firstNumber * secondNumber;
-        firstNumber = firstNumber * secondNumber;
-        secondNumber = 0;
+    else if (symbol === "times") {
+        calc = "*";
+        updateNumber();
+    }
+    else if (symbol === "divide") {
+        calc = "/";
+        updateNumber();
+    }
+    else if (symbol === "erase") {
+        firstNumber = 0;
         calc = null;
+        secondNumber = 0;
+        document.getElementById("display").textContent = firstNumber;
+    }
+    else if (symbol === "equal")
+        if (calc === "+") {
+            document.getElementById("display").textContent = firstNumber + secondNumber;
+            firstNumber = firstNumber + secondNumber;
+            secondNumber = 0;
+            calc = null;
         }
-    else if (calc === "div") {
-        document.getElementById("display").textContent = firstNumber / secondNumber;
-        firstNumber = firstNumber / secondNumber;
-        secondNumber = 0;
-        calc = null;
-    }
+        else if (calc === "-") {
+            document.getElementById("display").textContent = firstNumber - secondNumber;
+            firstNumber = firstNumber - secondNumber;
+            secondNumber = 0;
+            calc = null;
+
+        }
+        else if (calc === "*") {
+            document.getElementById("display").textContent = firstNumber * secondNumber;
+            firstNumber = firstNumber * secondNumber;
+            secondNumber = 0;
+            calc = null;
+        }
+        else if (calc === "/") {
+            document.getElementById("display").textContent = firstNumber / secondNumber;
+            firstNumber = firstNumber / secondNumber;
+            secondNumber = 0;
+            calc = null;
+        }
 }
