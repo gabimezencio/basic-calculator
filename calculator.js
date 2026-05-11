@@ -3,12 +3,20 @@ let calc = null;
 let secondNumber = 0;
 let calcs = ["+", "-", "*", "/"];
 let displayedNumber = "";
+let decimalMode = false;
+let decimalPlace = 10;
 
 function updateNumber() {
-    if (calc === null && firstNumber === -0) {
+    if (decimalMode === true && calc === null && decimalPlace < 11) {
+        displayedNumber = firstNumber + ".";
+    }
+    else if (decimalMode === true && calc === null && decimalPlace > 11) {
+        displayedNumber = firstNumber;
+    }
+    else if (calc === null && firstNumber === -0) {
         displayedNumber = "-"
     }
-    else if (calc === null) {
+    else if (calc === null && decimalMode === false) {
         displayedNumber = firstNumber
     }
     else if (calc === "+" && secondNumber === 0) {
@@ -24,16 +32,36 @@ function updateNumber() {
         displayedNumber = firstNumber + " / "
     }
     else if (calc === "+") {
-        displayedNumber = firstNumber + " + " + secondNumber
+        if (decimalMode === true && decimalPlace < 11) {
+            displayedNumber = firstNumber + " + " + secondNumber + ".";
+        }
+        else {
+            displayedNumber = firstNumber + " + " + secondNumber
+        }
     }
     else if (calc === "-") {
-        displayedNumber = firstNumber + " - " + secondNumber
+        if (decimalMode === true && decimalPlace < 11) {
+            displayedNumber = firstNumber + " - " + secondNumber + ".";
+        }
+        else {
+            displayedNumber = firstNumber + " - " + secondNumber
+        }
     }
     else if (calc === "*") {
-        displayedNumber = firstNumber + " * " + secondNumber
+        if (decimalMode === true && decimalPlace < 11) {
+            displayedNumber = firstNumber + " * " + secondNumber + ".";
+        }
+        else {
+            displayedNumber = firstNumber + " * " + secondNumber
+        }
     }
     else if (calc === "/") {
-        displayedNumber = firstNumber + " / " + secondNumber
+        if (decimalMode === true && decimalPlace < 11) {
+            displayedNumber = firstNumber + " / " + secondNumber + ".";
+        }
+        else {
+            displayedNumber = firstNumber + " / " + secondNumber
+        }
     }
     document.getElementById("display").textContent = displayedNumber;
 }
@@ -41,6 +69,16 @@ function updateNumber() {
 function insertNumber(number) {
     if (displayedNumber === "-") {
         firstNumber = firstNumber * 10 - number;
+        updateNumber();
+    }
+    else if (displayedNumber === firstNumber + ".") {
+        firstNumber = number / decimalPlace + firstNumber;
+        decimalPlace = decimalPlace * 10;
+        updateNumber();
+    }
+    else if (calc === null && decimalMode === true) {
+        firstNumber = number / decimalPlace + firstNumber;
+        decimalPlace = decimalPlace * 10;
         updateNumber();
     }
     else if (calc === null && firstNumber < 0) {
@@ -52,8 +90,20 @@ function insertNumber(number) {
         updateNumber();
     }
     else {
-        secondNumber = secondNumber * 10 + number;
-        updateNumber();
+        if (displayedNumber === firstNumber + " + " + secondNumber + "." || displayedNumber === firstNumber + " - " + secondNumber + "." || displayedNumber === firstNumber + " * " + secondNumber + "." || displayedNumber === firstNumber + " / " + secondNumber + ".") {
+            secondNumber = number / decimalPlace + secondNumber;
+            decimalPlace = decimalPlace * 10;
+            updateNumber();
+        }
+        else if (decimalMode === true) {
+            secondNumber = number / decimalPlace + secondNumber;
+            decimalPlace = decimalPlace * 10;
+            updateNumber();
+        }
+        else {
+            secondNumber = secondNumber * 10 + number;
+            updateNumber();
+        }
     }
 }
 
@@ -61,55 +111,117 @@ function insertFunction(symbol) {
     if (symbol === "plus") {
         calc = "+";
         updateNumber();
+        decimalPlace = 10;
+        decimalMode = false;
     }
     else if (symbol === "minus") {
-            if (firstNumber === 0) {
-                firstNumber = -0;
-                updateNumber();
-            }
-            else {
-                calc = "-";
-                updateNumber();
-            }
+        if (firstNumber === 0) {
+            firstNumber = -0;
+            updateNumber();
+        }
+        else {
+            calc = "-";
+            updateNumber();
+            decimalPlace = 10;
+            decimalMode = false;
+        }
     }
     else if (symbol === "times") {
         calc = "*";
         updateNumber();
+        decimalPlace = 10;
+        decimalMode = false;
     }
     else if (symbol === "divide") {
         calc = "/";
         updateNumber();
+        decimalPlace = 10;
+        decimalMode = false;
     }
     else if (symbol === "erase") {
         firstNumber = 0;
         calc = null;
         secondNumber = 0;
+        decimalPlace = 10;
+        decimalMode = false;
         document.getElementById("display").textContent = firstNumber;
     }
-    else if (symbol === "equal")
+    else if (symbol === "equal") {
         if (calc === "+") {
             document.getElementById("display").textContent = firstNumber + secondNumber;
             firstNumber = firstNumber + secondNumber;
             secondNumber = 0;
             calc = null;
+            decimalPlace = 10;
+            let resultString = firstNumber.toString();
+            if (resultString.includes('.')) {
+                let decimalPart = resultString.split('.')[1];
+                decimalPlace = 10 ** (decimalPart.length + 1); // Operator **: 10 to the power of what's is the ()
+                resultString = undefined;
+                decimalMode = true;
+            }
+            else {
+                resultString = undefined;
+                decimalMode = false;
+            }
         }
         else if (calc === "-") {
             document.getElementById("display").textContent = firstNumber - secondNumber;
             firstNumber = firstNumber - secondNumber;
             secondNumber = 0;
             calc = null;
-
+            decimalPlace = 10;
+            let resultString = firstNumber.toString();
+            if (resultString.includes('.')) {
+                let decimalPart = resultString.split('.')[1];
+                decimalPlace = 10 ** (decimalPart.length + 1); // Operator **: 10 to the power of what's is the ()
+                resultString = undefined;
+                decimalMode = true;
+            }
+            else {
+                resultString = undefined;
+                decimalMode = false;
+            }
         }
         else if (calc === "*") {
             document.getElementById("display").textContent = firstNumber * secondNumber;
             firstNumber = firstNumber * secondNumber;
             secondNumber = 0;
             calc = null;
+            decimalPlace = 10;
+            let resultString = firstNumber.toString();
+            if (resultString.includes('.')) {
+                let decimalPart = resultString.split('.')[1];
+                decimalPlace = 10 ** (decimalPart.length + 1); // Operator **: 10 to the power of what's is the ()
+                resultString = undefined;
+                decimalMode = true;
+            }
+            else {
+                resultString = undefined;
+                decimalMode = false;
+            }
         }
         else if (calc === "/") {
             document.getElementById("display").textContent = firstNumber / secondNumber;
             firstNumber = firstNumber / secondNumber;
             secondNumber = 0;
             calc = null;
+            decimalPlace = 10;
+            let resultString = firstNumber.toString();
+            if (resultString.includes('.')) {
+                let decimalPart = resultString.split('.')[1];
+                decimalPlace = 10 ** (decimalPart.length + 1); // Operator **: 10 to the power of what's is the ()
+                resultString = undefined;
+                decimalMode = true;
+            }
+            else {
+                resultString = undefined;
+                decimalMode = false;
+            }
         }
+    }
+    else if (symbol === "comma") {
+        decimalMode = true;
+        updateNumber();
+    }
 }
