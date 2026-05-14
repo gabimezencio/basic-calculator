@@ -72,12 +72,14 @@ function insertNumber(number) {
         updateNumber();
     }
     else if (displayedNumber === firstNumber + ".") {
-        firstNumber = number / decimalPlace + firstNumber;
+        let temporaryValue = number / decimalPlace + firstNumber;
+        firstNumber = parseFloat(temporaryValue.toFixed(Math.log10(decimalPlace))); //toFixed tranforms the number in a string then parseFloat makes it a number again, Math.log10(decimalPlace) is counting how many number post the dot we have
         decimalPlace = decimalPlace * 10;
         updateNumber();
     }
     else if (calc === null && decimalMode === true) {
-        firstNumber = number / decimalPlace + firstNumber;
+        let temporaryValue = number / decimalPlace + firstNumber;
+        firstNumber = parseFloat(temporaryValue.toFixed(Math.log10(decimalPlace))); 
         decimalPlace = decimalPlace * 10;
         updateNumber();
     }
@@ -91,12 +93,14 @@ function insertNumber(number) {
     }
     else {
         if (displayedNumber === firstNumber + " + " + secondNumber + "." || displayedNumber === firstNumber + " - " + secondNumber + "." || displayedNumber === firstNumber + " * " + secondNumber + "." || displayedNumber === firstNumber + " / " + secondNumber + ".") {
-            secondNumber = number / decimalPlace + secondNumber;
+            let temporaryValue = number / decimalPlace + secondNumber;
+            secondNumber = parseFloat(temporaryValue.toFixed(Math.log10(decimalPlace))); 
             decimalPlace = decimalPlace * 10;
             updateNumber();
         }
         else if (decimalMode === true) {
-            secondNumber = number / decimalPlace + secondNumber;
+            let temporaryValue = number / decimalPlace + secondNumber;
+            secondNumber = parseFloat(temporaryValue.toFixed(Math.log10(decimalPlace))); 
             decimalPlace = decimalPlace * 10;
             updateNumber();
         }
@@ -148,8 +152,9 @@ function insertFunction(symbol) {
     }
     else if (symbol === "equal") {
         if (calc === "+") {
-            document.getElementById("display").textContent = firstNumber + secondNumber;
-            firstNumber = firstNumber + secondNumber;
+            let temporaryValue = firstNumber + secondNumber;
+            firstNumber = parseFloat(temporaryValue.toFixed(10)); //toFixed(10) up to 10 decimal places
+            document.getElementById("display").textContent = firstNumber;
             secondNumber = 0;
             calc = null;
             decimalPlace = 10;
@@ -165,9 +170,10 @@ function insertFunction(symbol) {
                 decimalMode = false;
             }
         }
-        else if (calc === "-") {
-            document.getElementById("display").textContent = firstNumber - secondNumber;
-            firstNumber = firstNumber - secondNumber;
+        else if (calc === "-") {            
+            let temporaryValue = firstNumber - secondNumber;
+            firstNumber = parseFloat(temporaryValue.toFixed(10));
+            document.getElementById("display").textContent = firstNumber;
             secondNumber = 0;
             calc = null;
             decimalPlace = 10;
@@ -184,8 +190,9 @@ function insertFunction(symbol) {
             }
         }
         else if (calc === "*") {
-            document.getElementById("display").textContent = firstNumber * secondNumber;
-            firstNumber = firstNumber * secondNumber;
+            let temporaryValue = firstNumber * secondNumber;
+            firstNumber = parseFloat(temporaryValue.toFixed(10));
+            document.getElementById("display").textContent = firstNumber;
             secondNumber = 0;
             calc = null;
             decimalPlace = 10;
@@ -202,8 +209,9 @@ function insertFunction(symbol) {
             }
         }
         else if (calc === "/") {
-            document.getElementById("display").textContent = firstNumber / secondNumber;
-            firstNumber = firstNumber / secondNumber;
+            let temporaryValue = firstNumber / secondNumber;
+            firstNumber = parseFloat(temporaryValue.toFixed(10));
+            document.getElementById("display").textContent = firstNumber;          
             secondNumber = 0;
             calc = null;
             decimalPlace = 10;
@@ -225,3 +233,30 @@ function insertFunction(symbol) {
         updateNumber();
     }
 }
+
+document.addEventListener("keydown", function(event) {
+    if (event.key >= "0" && event.key <= "9") {
+        insertNumber(Number(event.key));
+    }
+    else if (event.key === "+") {
+        insertFunction("plus")
+    }
+    else if (event.key === "-") {
+        insertFunction("minus")
+    }
+    else if (event.key === "*" || event.key === "x" || event.key === "X") {
+        insertFunction("times")
+    }
+    else if (event.key === "/") {
+        insertFunction("divide")
+    }
+    else if (event.key === "," || event.key === ".") {
+        insertFunction("comma")
+    }
+    else if (event.key === "Backspace" || event.key === "Delete") {
+        insertFunction("erase")
+    }
+    else if (event.key === "Enter" || event.key === "=") {
+        insertFunction("equal")
+    }
+});

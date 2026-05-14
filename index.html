@@ -5,32 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="icon" type="image/png" href="icon.png">
-    <style>
-        body {
-            background-color: #121212;
-            color: white;
-        }
-        button {
-            background-color: #2a2a2a;
-            color: white;
-            border: 1px solid #555;
-            padding: 10px;
-            margin: 2px;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #3a3a3a;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 style="text-align: center;" id="display">0</h1>
-    <div style="text-align: center;"><button onclick="insertFunction('erase')">C</button></div>
-    <div style="text-align: center;"><button onclick="insertFunction('plus')">+</button><button onclick="insertFunction('minus')">-</button><button onclick="insertFunction('times')">*</button><button onclick="insertFunction('divide')">/</button></div>
-    <div style="text-align: center;"><button onclick="insertNumber(7)">7</button><button onclick="insertNumber(8)">8</button><button onclick="insertNumber(9)">9</button></div>
-    <div style="text-align: center;"><button onclick="insertNumber(4)">4</button><button onclick="insertNumber(5)">5</button><button onclick="insertNumber(6)">6</button></div>
-    <div style="text-align: center;"><button onclick="insertNumber(1)">1</button><button onclick="insertNumber(2)">2</button><button onclick="insertNumber(3)">3</button></div>
-    <div style="text-align: center;"><button onclick="insertNumber(0)">0</button><button onclick="insertFunction('equal')">=</button><button onclick="insertFunction('comma')">,</button></div>
+    <div class="calculator">
+        <h1 class="display" style="text-align: center;" id="display">0</h1>
+        <div class="buttons">
+            <button class="clear" onclick="insertFunction('erase')">C</button>
+
+            <button onclick="insertNumber(7)">7</button>
+            <button onclick="insertNumber(8)">8</button>
+            <button onclick="insertNumber(9)">9</button>
+            <button onclick="insertFunction('plus')">+</button>
+
+            <button onclick="insertNumber(4)">4</button>
+            <button onclick="insertNumber(5)">5</button>
+            <button onclick="insertNumber(6)">6</button>
+            <button onclick="insertFunction('minus')">-</button>
+
+            <button onclick="insertNumber(1)">1</button>
+            <button onclick="insertNumber(2)">2</button>
+            <button onclick="insertNumber(3)">3</button>
+            <button onclick="insertFunction('times')">*</button>
+
+            <button onclick="insertNumber(0)">0</button>
+            <button onclick="insertFunction('comma')">,</button>
+            <button class="" onclick="insertFunction('equal')">=</button>
+            <button onclick="insertFunction('divide')">/</button>
+        </div>
+    </div>
     <script src="calculator.js"></script>
-</bodystyle="background-color:>
+</body>
 </html>
