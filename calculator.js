@@ -6,6 +6,15 @@ let displayedNumber = "";
 let decimalMode = false;
 let decimalPlace = 10;
 
+const darkModeToggle =
+    document.getElementById("darkModeToggle");
+
+darkModeToggle.addEventListener("change", () => {
+
+    document.body.classList.toggle("dark-mode");
+
+});
+
 function updateNumber() {
     if (decimalMode === true && calc === null && decimalPlace < 11) {
         displayedNumber = firstNumber + ".";

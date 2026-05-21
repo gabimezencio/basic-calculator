@@ -11,6 +11,7 @@ A calculator project built with HTML, CSS and JavaScript as part of my programmi
 - CSS Grid layout
 - Custom font styling
 - Floating-point precision fixes
+- Light/Dark mode UI switch
 
 ### Technologies
 - HTML5
@@ -25,6 +26,5 @@ A calculator project built with HTML, CSS and JavaScript as part of my programmi
 
 ### Future Improvements
 - Better mobile responsiveness
-- Light/Dark mode UI switch
 - Create a custom decimal input and display system to handle floating-point precision and preserve calculator formatting
 - More advanced operations

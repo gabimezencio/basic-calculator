@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="title">Basic Calculator</div>
     <div class="calculator">
         <h1 class="display" style="text-align: center;" id="display">0</h1>
         <div class="buttons">
@@ -33,6 +34,18 @@
             <button class="" onclick="insertFunction('equal')">=</button>
             <button onclick="insertFunction('divide')">/</button>
         </div>
+    </div>
+    <div class="dark-mode-container">
+        <div class="dark-mode-text">Dark Mode</div>
+
+        <label class="switch">
+
+            <input type="checkbox"
+                   id="darkModeToggle">
+
+            <span class="slider"></span>
+
+        </label>
     </div>
     <script src="calculator.js"></script>
 </body>
